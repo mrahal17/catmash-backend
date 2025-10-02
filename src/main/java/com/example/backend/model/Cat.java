@@ -9,27 +9,27 @@ public class Cat {
         this.imageUrl = imageUrl;
     }
 
-    public getId() {
+    public String getId() {
         return this.id;
     }
 
-    public getImageUrl() {
+    public String getImageUrl() {
         return this.imageUrl;
     }
 
-    public getNumberOfVotes() {
+    public int getNumberOfVotes() {
         return this.numberOfVotes;
     }
 
-    public setId(String id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public setImageUrl(String imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
-    public setNumberOfVotes(int numberOfVotes) {
+    public void setNumberOfVotes(int numberOfVotes) {
         this.numberOfVotes = numberOfVotes;
     }
 }
