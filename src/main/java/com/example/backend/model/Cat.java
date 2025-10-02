@@ -1,3 +1,5 @@
+package com.example.backend.model;
+
 public class Cat {
 
     private String id;
