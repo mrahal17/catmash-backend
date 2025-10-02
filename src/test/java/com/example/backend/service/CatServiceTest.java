@@ -40,7 +40,7 @@ class CatServiceTest {
     }
 
     @Test
-    void testUpdateNumberOfVotesExists() {
+    void testIncrementNumberOfVotes() {
         String catId = "46h";
         Optional<Cat> cat = catService.getById(catId);
         assertTrue(cat.isPresent());
@@ -48,9 +48,9 @@ class CatServiceTest {
         int numberOfVotesBefore = cat.get().getNumberOfVotes();
         assertEquals(numberOfVotesBefore, 0);
 
-        catService.updateNumberOfVotes(catId, 2);
+        catService.incrementNumberOfVotes(catId);
         int numberOfVotesAfter = cat.get().getNumberOfVotes();
 
-        assertEquals(numberOfVotesAfter, 2, "There should be 2 votes for cat with id '46h'");
+        assertEquals(numberOfVotesAfter, 1, "There should be 1 votes for cat with id '46h'");
     }
 }

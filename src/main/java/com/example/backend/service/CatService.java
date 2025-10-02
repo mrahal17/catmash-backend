@@ -39,10 +39,10 @@ public class CatService {
         return List.copyOf(cats.values());
     }
 
-    public void updateNumberOfVotes(String id, int newNumberOfVotes) {
-        Optional<Cat> cat = Optional.ofNullable(cats.get(id));
-        if (cat.isPresent()) {
-            cat.get().setNumberOfVotes(newNumberOfVotes);
-        }
+    public boolean incrementNumberOfVotes(String id) {
+        return getById(id).map(cat -> {
+            cat.setNumberOfVotes(cat.getNumberOfVotes() + 1);
+            return true;
+        }).orElse(false);
     }
 }
