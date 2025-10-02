@@ -1,0 +1,43 @@
+package com.example.backend.controller;
+
+import com.example.backend.model.Cat;
+import com.example.backend.service.CatService;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/cats")
+public class CatController {
+
+    private final CatService catService;
+
+    public CatController(CatService catService) {
+        this.catService = catService;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Cat> getById(@PathVariable String id) {
+        return catService.getById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/")
+    public List<Cat> getAll() {
+        return catService.getAll();
+    }
+
+    @PatchMapping("/{id}/number-of-votes")
+    public ResponseEntity<String> incrementNumberOfVotes(@PathVariable String id) {
+        boolean updated = catService.incrementNumberOfVotes(id);
+        if (updated) {
+            return ResponseEntity.ok("Number of votes updated.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}
