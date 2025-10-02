@@ -9,6 +9,13 @@ public class Cat {
     private String imageUrl;
     private int numberOfVotes = 0;
 
+    public Cat() {}
+
+    public Cat(String id, String imageUrl) {
+        this.id = id;
+        this.imageUrl = imageUrl;
+    }
+
     public String getId() {
         return this.id;
     }
