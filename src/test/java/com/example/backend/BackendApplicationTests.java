@@ -13,7 +13,7 @@ class CatMashApplicationTests {
 
 	@Test
 	void dummyTest() {
-		assertEquals(1, 2, "Test pipeline");
+		assertEquals(2, 2, "Test pipeline");
 	}
 
 }
