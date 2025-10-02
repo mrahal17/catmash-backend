@@ -13,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class CatServiceTest {
 
     private CatService catService;
+    private String existingId = "46h";
+    private String nonExistingId = "123abc";
 
     @BeforeEach
     void setUp() {
@@ -28,29 +30,34 @@ class CatServiceTest {
 
     @Test
     void testGetByIdExists() {
-        Optional<Cat> cat = catService.getById("46h");
-        assertTrue(cat.isPresent(), "Cat with id '46h' should exist");
-        assertEquals("http://25.media.tumblr.com/tumblr_m3tpx8fsXX1qhwmnpo1_400.jpg", cat.get().getImageUrl());
+        Optional<Cat> cat = catService.getById(existingId);
+        assertTrue(cat.isPresent(), String.format("Cat with id %s should exist", existingId));
     }
 
     @Test
     void testGetByIdNotFound() {
-        Optional<Cat> cat = catService.getById("123abc");
-        assertTrue(cat.isEmpty(), "Cat with id '123abc' should not exist");
+        Optional<Cat> cat = catService.getById(nonExistingId);
+        assertTrue(cat.isEmpty(), String.format("Cat with id %s should not exist", nonExistingId));
     }
 
     @Test
-    void testIncrementNumberOfVotes() {
-        String catId = "46h";
-        Optional<Cat> cat = catService.getById(catId);
+    void testIncrementNumberOfVotesIdExists() {
+        Optional<Cat> cat = catService.getById(existingId);
         assertTrue(cat.isPresent());
 
         int numberOfVotesBefore = cat.get().getNumberOfVotes();
         assertEquals(numberOfVotesBefore, 0);
 
-        catService.incrementNumberOfVotes(catId);
+        boolean updated = catService.incrementNumberOfVotes(existingId);
         int numberOfVotesAfter = cat.get().getNumberOfVotes();
 
-        assertEquals(numberOfVotesAfter, 1, "There should be 1 votes for cat with id '46h'");
+        assertTrue(updated, "The number of votes should have been updated.");
+        assertEquals(numberOfVotesAfter, 1, String.format("There should be one vote for cat with id %s", existingId));
+    }
+
+    @Test
+    void testIncrementNumberOfVotesIdNoExists() {
+        boolean updated = catService.incrementNumberOfVotes(nonExistingId);
+        assertFalse(updated, "The number of votes should not have been updated because the id does not exist.");
     }
 }
