@@ -1,15 +1,13 @@
 package com.example.backend.model;
+    
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Cat {
 
     private String id;
+    @JsonProperty("url")
     private String imageUrl;
     private int numberOfVotes = 0;
-
-    public Cat(String id, String imageUrl) {
-        this.id = id;
-        this.imageUrl = imageUrl;
-    }
 
     public String getId() {
         return this.id;
