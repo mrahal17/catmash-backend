@@ -6,25 +6,36 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 import com.example.backend.model.Cat;
 
 @Service
 public class CatService {
 
-    private final Map<String, Cat> cats = new ConcurrentHashMap<>();
+    private final String jsonFilePath;
+    private final Map<String, Cat> catsMap = new ConcurrentHashMap<>();
     private final ObjectMapper mapper = new ObjectMapper();
+
+    public CatService() {
+        this("/cats.json");
+    }
+
+    public CatService(String jsonFilePath) {
+        this.jsonFilePath = jsonFilePath;
+    }
 
     @PostConstruct
     public void init() {
-        try (InputStream is = getClass().getResourceAsStream("/cats.json")) {
+        try (InputStream is = getClass().getResourceAsStream(jsonFilePath)) {
             List<Cat> list = mapper.readValue(is, new TypeReference<List<Cat>>() {});
             list.forEach(cat -> {
-                cats.put(cat.getId(), cat);
+                catsMap.put(cat.getId(), cat);
             });
         } catch (Exception e) {
             throw new RuntimeException("Impossible to load cats from the JSON file", e);
@@ -32,11 +43,17 @@ public class CatService {
     }
 
     public Optional<Cat> getById(String id) {
-        return Optional.ofNullable(cats.get(id));
+        return Optional.ofNullable(catsMap.get(id));
     }
 
     public List<Cat> getAll() {
-        return List.copyOf(cats.values());
+        return List.copyOf(catsMap.values());
+    }
+
+    public List<Cat> getAllRanked() {
+        List<Cat> cats = new ArrayList<>(catsMap.values());
+        cats.sort(Comparator.comparingInt(Cat::getNumberOfVotes).reversed());
+        return cats;
     }
 
     public boolean incrementNumberOfVotes(String id) {

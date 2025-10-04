@@ -50,6 +50,19 @@ class CatControllerTest {
                 .andExpect(jsonPath("$[0].id").value("46h"))
                 .andExpect(jsonPath("$[1].id").value("bd8"));
     }
+
+    @Test
+    void testGetAllRanked() throws Exception {
+        cat1.setNumberOfVotes(1);
+        cat2.setNumberOfVotes(4);
+        List<Cat> cats = Arrays.asList(cat2, cat1);
+        Mockito.when(catService.getAllRanked()).thenReturn(cats);
+
+        mockMvc.perform(get("/api/cats/ranked"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(cat2.getId()))
+                .andExpect(jsonPath("$[1].id").value(cat1.getId()));
+    }
     
     @Test
     void testGetByIdExists() throws Exception {
