@@ -31,6 +31,11 @@ public class CatController {
         return catService.getAll();
     }
 
+    @GetMapping("/ranked")
+    public List<Cat> getAllRanked() {
+        return catService.getAllRanked();
+    }
+
     @PatchMapping("/{id}/number-of-votes")
     public ResponseEntity<String> incrementNumberOfVotes(@PathVariable String id) {
         boolean updated = catService.incrementNumberOfVotes(id);

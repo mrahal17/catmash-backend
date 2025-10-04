@@ -13,12 +13,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class CatServiceTest {
 
     private CatService catService;
-    private String existingId = "46h";
-    private String nonExistingId = "123abc";
+    private String existingId = "1";
+    private String nonExistingId = "4";
+    private String firstSpotId = "2";
+    private String secondSpotId = "3";
+    private String thridSpotId = "1";
 
     @BeforeEach
     void setUp() {
-        catService = new CatService();
+        catService = new CatService("/cats-test.json");
         catService.init();
     }
 
@@ -26,6 +29,14 @@ class CatServiceTest {
     void testGetAllNotEmpty() {
         List<Cat> cats = catService.getAll();
         assertFalse(cats.isEmpty(), "List should not be empty");
+    }
+
+    @Test
+    void testGetAllRanked() {
+        List<Cat> cats = catService.getAllRanked();
+        assertEquals(cats.get(0).getId(), firstSpotId, String.format("Cat with id %s should occupy the first spot", firstSpotId));
+        assertEquals(cats.get(1).getId(), secondSpotId, String.format("Cat with id %s should occupy the second spot", secondSpotId));
+        assertEquals(cats.get(2).getId(), thridSpotId, String.format("Cat with id %s should occupy the third spot", thridSpotId));
     }
 
     @Test
@@ -45,14 +56,11 @@ class CatServiceTest {
         Optional<Cat> cat = catService.getById(existingId);
         assertTrue(cat.isPresent());
 
-        int numberOfVotesBefore = cat.get().getNumberOfVotes();
-        assertEquals(numberOfVotesBefore, 0);
-
         boolean updated = catService.incrementNumberOfVotes(existingId);
         int numberOfVotesAfter = cat.get().getNumberOfVotes();
 
         assertTrue(updated, "The number of votes should have been updated.");
-        assertEquals(numberOfVotesAfter, 1, String.format("There should be one vote for cat with id %s", existingId));
+        assertEquals(numberOfVotesAfter, 2, String.format("There should be one vote for cat with id %s", existingId));
     }
 
     @Test
