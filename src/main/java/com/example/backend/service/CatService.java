@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 import org.springframework.stereotype.Service;
 import jakarta.annotation.PostConstruct;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
@@ -20,7 +21,6 @@ public class CatService {
 
     private final String jsonFilePath;
     private final Map<String, Cat> catsMap = new ConcurrentHashMap<>();
-    private final ObjectMapper mapper = new ObjectMapper();
 
     public CatService() {
         this("/cats.json");
@@ -32,9 +32,16 @@ public class CatService {
 
     @PostConstruct
     public void init() {
-        try (InputStream is = getClass().getResourceAsStream(jsonFilePath)) {
-            List<Cat> list = mapper.readValue(is, new TypeReference<List<Cat>>() {});
-            list.forEach(cat -> {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try (InputStream is = getClass().getResourceAsStream(this.jsonFilePath)) {
+            JsonNode rootNode = mapper.readTree(is);
+            JsonNode imagesNode = rootNode.get("images");
+        
+            mapper.readValue(
+                imagesNode.traverse(),
+                new TypeReference<List<Cat>>() {}
+            ).forEach(cat -> {
                 catsMap.put(cat.getId(), cat);
             });
         } catch (Exception e) {
