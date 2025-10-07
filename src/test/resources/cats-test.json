@@ -1,17 +1,19 @@
-[
-  {
-    "url": "http://24.media.tumblr.com/tumblr_m82woaL5AD1rro1o5o1_1280.jpg",
-    "id": "1",
-    "numberOfVotes": 1
-  },
-  {
-    "url": "http://24.media.tumblr.com/tumblr_m29a9d62C81r2rj8po1_500.jpg",
-    "id": "2",
-    "numberOfVotes": 5
-  },
-  {
-    "url": "http://25.media.tumblr.com/tumblr_m4bgd9OXmw1qioo2oo1_500.jpg",
-    "id": "3",
-    "numberOfVotes": 3
-  }
-]
+{
+  "images": [
+    {
+      "url": "http://24.media.tumblr.com/tumblr_m82woaL5AD1rro1o5o1_1280.jpg",
+      "id": "1",
+      "numberOfVotes": 1
+    },
+    {
+      "url": "http://24.media.tumblr.com/tumblr_m29a9d62C81r2rj8po1_500.jpg",
+      "id": "2",
+      "numberOfVotes": 5
+    },
+    {
+      "url": "http://25.media.tumblr.com/tumblr_m4bgd9OXmw1qioo2oo1_500.jpg",
+      "id": "3",
+      "numberOfVotes": 3
+    }
+  ]
+}
