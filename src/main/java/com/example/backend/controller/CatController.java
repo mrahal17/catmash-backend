@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Map;
 
+@CrossOrigin(origins = "https://mrahal17.github.io")
 @RestController
 @RequestMapping("/api/cats")
 public class CatController {
