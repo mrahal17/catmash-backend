@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: catmash-backend
-    env: docker
-    plan: free
-    dockerfilePath: ./Dockerfile
-    autoDeploy: true
-    healthCheckPath: /api/cats
-    region: oregon
