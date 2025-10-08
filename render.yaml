@@ -3,6 +3,7 @@ services:
     name: catmash-backend
     env: docker
     plan: free
+    dockerfilePath: ./Dockerfile
     autoDeploy: true
-    region: oregon
     healthCheckPath: /api/cats
+    region: oregon
