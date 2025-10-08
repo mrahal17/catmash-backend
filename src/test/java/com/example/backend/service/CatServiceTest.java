@@ -56,16 +56,16 @@ class CatServiceTest {
         Optional<Cat> cat = catService.getById(existingId);
         assertTrue(cat.isPresent());
 
-        boolean updated = catService.incrementNumberOfVotes(existingId);
+        boolean updated = catService.incrementNumberOfVotes(existingId, 4);
         int numberOfVotesAfter = cat.get().getNumberOfVotes();
 
         assertTrue(updated, "The number of votes should have been updated.");
-        assertEquals(numberOfVotesAfter, 2, String.format("There should be one vote for cat with id %s", existingId));
+        assertEquals(numberOfVotesAfter, 5, String.format("There should be one vote for cat with id %s", existingId));
     }
 
     @Test
     void testIncrementNumberOfVotesIdNoExists() {
-        boolean updated = catService.incrementNumberOfVotes(nonExistingId);
+        boolean updated = catService.incrementNumberOfVotes(nonExistingId, 1);
         assertFalse(updated, "The number of votes should not have been updated because the id does not exist.");
     }
 }
