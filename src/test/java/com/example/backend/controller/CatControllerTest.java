@@ -83,11 +83,17 @@ class CatControllerTest {
 
     @Test
     void testIncrementNumberOfVotes() throws Exception {
-        Mockito.when(catService.incrementNumberOfVotes(cat1.getId())).thenReturn(true);
+        String catId = cat1.getId();
+        int increment = 5;
 
-        mockMvc.perform(patch(String.format("/api/cats/%s/number-of-votes", cat1.getId()))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Number of votes updated."));
+        Mockito.when(catService.incrementNumberOfVotes(catId, increment)).thenReturn(true);
+
+        String requestBody = String.format("{\"increment\": %d}", increment);
+
+        mockMvc.perform(patch(String.format("/api/cats/%s/number-of-votes", catId))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody))
+            .andExpect(status().isOk())
+            .andExpect(content().string(String.format("Number of votes updated by %d.", increment)));
     }
 }

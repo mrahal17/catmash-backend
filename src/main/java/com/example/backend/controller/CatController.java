@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/cats")
@@ -37,10 +38,20 @@ public class CatController {
     }
 
     @PatchMapping("/{id}/number-of-votes")
-    public ResponseEntity<String> incrementNumberOfVotes(@PathVariable String id) {
-        boolean updated = catService.incrementNumberOfVotes(id);
+    public ResponseEntity<String> incrementNumberOfVotes(
+        @PathVariable String id,
+        @RequestBody Map<String, Object> payload) {
+        int increment = 1;
+
+        if (payload != null && payload.containsKey("increment")) {
+            Object incObj = payload.get("increment");
+            if (incObj instanceof Number) increment = ((Number) incObj).intValue();
+        }
+
+        boolean updated = catService.incrementNumberOfVotes(id, increment);
+
         if (updated) {
-            return ResponseEntity.ok("Number of votes updated.");
+            return ResponseEntity.ok("Number of votes updated by " + increment + ".");
         } else {
             return ResponseEntity.notFound().build();
         }

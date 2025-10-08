@@ -63,9 +63,9 @@ public class CatService {
         return cats;
     }
 
-    public boolean incrementNumberOfVotes(String id) {
+    public boolean incrementNumberOfVotes(String id, int increment) {
         return getById(id).map(cat -> {
-            cat.setNumberOfVotes(cat.getNumberOfVotes() + 1);
+            cat.setNumberOfVotes(cat.getNumberOfVotes() + increment);
             return true;
         }).orElse(false);
     }
