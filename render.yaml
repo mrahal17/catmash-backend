@@ -1,15 +1,8 @@
 services:
   - type: web
     name: catmash-backend
-    env: java
+    env: docker
     plan: free
-    buildCommand: "./mvnw clean package -DskipTests"
-    startCommand: "java -jar target/*.jar"
-    envVars:
-      - key: JAVA_VERSION
-        value: 17
-      - key: JAVA_HOME
-        value: /usr/lib/jvm/java-17-openjdk-amd64
     autoDeploy: true
-    healthCheckPath: /api/cats
     region: oregon
+    healthCheckPath: /api/cats
